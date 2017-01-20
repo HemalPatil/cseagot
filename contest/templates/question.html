@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<title>CSEA Game of Threats</title>
+<br>
+<div class="row" style="position: relative; width: 80%; transform: translateX(-50%); left: 50%;">
+	<a class="btn blue" href="/contest/">Back</a>
+</div>
+<div class="row" style="position: relative; width: 80%; transform: translateX(-50%); left: 50%;">
+	<span>{{ question.question }}</span>
+</div>
+<div class="row" style="position: relative; width: 80%; transform: translateX(-50%); left: 50%;">
+	<span style="padding: 5px; color: white; background: rgb(34, 177, 76); border-radius: 3px;">{{ question.points }} points</span>
+</div>
+{% if hints %}
+<div class="row" style="position: relative; width: 80%; transform: translateX(-50%); left: 50%; background: rgb(92, 153, 182); padding: 10px; color: white">
+	<p>Hints:</p>
+	<ul style="list-style: disc;">
+		{% for hint in hints %}
+		<li>{{ hint.hint }}</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endif %}
+<div class="row" style="position: relative; width: 80%; transform: translateX(-50%); left: 50%;">
+	<form id="flagform" method="POST" onsubmit="return submitFlag();">
+		<input type="hidden" name="question" value="{{ question.id }}" />
+		<input type="text" name="flag" style="width: 300px;" placeholder="Flag" />
+		<button class="btn" type="submit" style="margin-left: 20px;">Submit</button>
+	</form>
+</div>
+<script type="text/javascript">
+	var request;
+	var formData;
+	function submitFlag()
+	{
+		if(request)
+		{
+			request.abort();
+		}
+		formData = $("#flagform").serialize();
+		request = $.ajax({url:"/contest/submitflag/",type:"post",data:formData});
+		request.done(function (response, textStatus, jqXHR)
+		{
+			if(response === 'solved')
+			{
+				alert("Question already solved!");
+			}
+			else if(response === 'wrong')
+			{
+				alert("Wrong flag submitted!");
+			}
+			else if(response === 'right')
+			{
+				alert("Correct flag submitted!");
+			}
+		});
+		request.fail(function (jqXHR, textStatus, errorThrown)
+		{
+			alert(textStatus + ' ' + errorThrown);
+		});
+		return false;
+	}
+</script>
+{% endblock %}

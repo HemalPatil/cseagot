@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="{% static 'css/materialize.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+		<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+		<script src="{% static 'js/materialize.min.js' %}"></script>
+		<style>
+			body
+			{
+				background: rgb(240, 240, 240);
+			}
+		</style>
+	</head>
+	<body>
+		<header id="header" class="page-topbar">
+			<div class="navbar-fixed">
+				<nav style="background: rgb(65, 118, 144);">
+					<ul class="left">
+						<li><h1 class="logo-wrapper"><span class="brand-logo darken-1">CSEA Game of Threats</span></h1></li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<section>
+			<div class="container">
+				{% block content %}{% endblock %}
+			</div>
+		</section>
+	</body>
+</html>

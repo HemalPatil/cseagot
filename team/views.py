@@ -17,6 +17,9 @@ def successful(request):
 	context = {}
 	return HttpResponse(template.render(context, request))
 
+def main(request):
+	return HttpResponse("bhosadchod")
+
 @csrf_exempt
 def checkteam(request):
 	if request.method == "POST":

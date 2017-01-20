@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login</title>
+		<link rel="stylesheet" href="{% static 'css/register.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/materialize.min.css' %}" />
+	</head>
+	<body>
+		<div id="container">
+			<div style="padding-top: 10px; padding-left: 15px; padding-right: 15px; padding-bottom: 10px; background: rgb(65, 118, 144); border-top-left-radius: 5px; border-top-right-radius: 5px;">
+				<span style="margin: 0; padding: 0; color: white; font-size: 20px; font-weight: 100;">Login</span>
+			</div>
+			<div id="container2">
+				<form id="login" method="POST">
+					{% csrf_token %}
+					<div style="margin-bottom: 20px;">
+						<span style="margin-right: 10px;">Team ID</span>
+						<input type="text" name="uname" />
+					</div>
+					<div style="margin-bottom: 20px;">
+						<span style="margin-right: 10px;">Password</span>
+						<input type="password" name="pw" />
+					</div>
+					<div>
+						<button class="btn" type="submit">Login</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

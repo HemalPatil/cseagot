@@ -20,9 +20,10 @@ class Student(models.Model):
 	registered = models.BooleanField(default = True)
 
 class Team(models.Model):
-	user = models.ForeignKey(User, related_name = 'team', null = False)
+	user = models.OneToOneField(User)
 	name = models.CharField(max_length = 50)
 	mem1 = models.ForeignKey(Student, related_name = 'leader', null = False)
 	mem2 = models.ForeignKey(Student, related_name = 'member2', null = True)
 	mem3 = models.ForeignKey(Student, related_name = 'member3', null = True)
 	mem4 = models.ForeignKey(Student, related_name = 'member4', null = True)
+	points = models.IntegerField(default = 0, null = False)
