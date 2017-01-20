@@ -17,7 +17,7 @@ class Student(models.Model):
 	regno = models.CharField(max_length = 10, null = False)
 	course = models.CharField(max_length = 10, choices = COURSE_CHOICES, blank = True, null = False)
 	year = models.CharField(max_length = 10, choices = YEAR_CHOICES, blank = True, null = False)
-	registered = models.BooleanField(default  = True)
+	registered = models.BooleanField(default = True)
 
 class Team(models.Model):
 	user = models.ForeignKey(User, related_name = 'team', null = False)
