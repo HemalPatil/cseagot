@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Register Team</title>
+		<link rel="stylesheet" href="{% static 'css/register.css' %}" />
+	</head>
+	<body>
+		<div id="container">
+			<div style="padding-top: 10px; padding-left: 15px; padding-right: 15px; padding-bottom: 10px; background: rgb(65, 118, 144); border-top-left-radius: 5px; border-top-right-radius: 5px;">
+				<span style="margin: 0; padding: 0; color: white; font-size: 20px; font-weight: 100;">Register team</span>
+			</div>
+			<div id="container2">
+				<form id="teamreg" method="POST" onsubmit="return registerTeam();">
+					<div style="padding-bottom: 20px; border-bottom: 1px solid rgb(230, 230, 230);">
+						<span style="margin-right: 10px;">Team name</span>
+						<input type="text" name="teamname" required />
+					</div>
+					<div style="margin-top: 20px; margin-bottom: 20px;">
+						<span style="font-size: 20px;">Member registration numbers</span>
+					</div>
+					<div style="margin-bottom: 20px;">
+						<span style="margin-right: 10px;">Member 1</span>
+						<input type="text" name="mem1" required />
+					</div>
+					<div style="margin-bottom: 20px;">
+						<span style="margin-right: 10px;">Member 2</span>
+						<input type="text" name="mem2"/>
+					</div>
+					<div style="margin-bottom: 20px;">
+						<span style="margin-right: 10px;">Member 3</span>
+						<input type="text" name="mem3"/>
+					</div>
+					<div style="margin-bottom: 20px;">
+						<span style="margin-right: 10px;">Member 4</span>
+						<input type="text" name="mem4"/>
+					</div>
+					<div>
+						<button type="submit">Register</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+		<script type="text/javascript">
+		var request;
+		var formData;
+		function registerTeam()
+		{
+			if(request)
+			{
+				request.abort();
+			}
+			formData = $("#teamreg").serialize();
+			request = $.ajax({url:"/team/checkteam/",type:"post",data:formData});
+			request.done(function (response, textStatus, jqXHR)
+			{
+				if(response === 'teamreged')
+				{
+					window.location("/team/successful/");
+				}
+			});
+			request.fail(function (jqXHR, textStatus, errorThrown)
+			{
+				alert(textStatus + ' ' + errorThrown);
+			});
+			return false;
+		}
+		</script>
+	</body>
+</html>
