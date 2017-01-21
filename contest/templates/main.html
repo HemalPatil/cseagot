@@ -46,11 +46,14 @@
 <script src="{% static 'js/flipclock.min.js' %}"></script>
 <script type="text/javascript">
 	var clock;
-	var end = new Date(2017, 0, 21, 6, 0, 0, 0);
+	var end = new Date(2017, 0, 21, 19, 0, 0, 0);
 	$(document).ready(function()
 	{
 		var rightnow = new Date();
 		var diff = end.getTime() / 1000 - rightnow.getTime() / 1000;
+		console.log(end);
+		console.log(rightnow);
+		console.log(diff);
 		clock = $('#clock').FlipClock(diff, {clockFace : 'HourlyCounter', autoStart : false});
 		clock.setCountdown(true);
 		clock.start();
