@@ -1,22 +1,59 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 <title>CSEA Game of Threats</title>
 <br>
-<div class="row center">
-	<h4>Questions</h4>
-</div>
-<div class="row" style="position: relative; width: 500px; transform: translateX(-50%); left: 50%; border: 5px solid rgb(65, 118, 144); background: rgb(92, 153, 182);">
-	{% for question in questions %}
-		<div class="col s3 l3 m3" style="margin-top: 5px; margin-bottom: 5px;">
-			<a href="/contest/question/{{ question.id }}">
-				<div style="height: 100px; background: rgb(65, 118, 144); display: flex; flex-direction: column; color: white;">
-					<div style="display: block; height: 100px; font-size: 50px; text-align: center;">{{ forloop.counter }}
-					</div>
-					<div style="display: block; padding: 2px; text-align: center;">{{ question.points }} points
-					</div>
-				</div>
-			</a>
+<div class="row">
+	<div class="col s12 m6 l6">
+		<div class="row center">
+			<h4>Questions</h4>
 		</div>
-	{% endfor %}
+		<div class="row" style="border: 5px solid rgb(65, 118, 144); background: rgb(92, 153, 182);">
+			{% for question in questions %}
+				<div class="col s3 l3 m3" style="margin-top: 5px; margin-bottom: 5px;">
+					<a href="/contest/question/{{ question.id }}">
+						<div style="height: 100px; background: rgb(65, 118, 144); display: flex; flex-direction: column; color: white;">
+							<div style="display: block; height: 100px; font-size: 50px; text-align: center;">{{ forloop.counter }}
+							</div>
+							<div style="display: block; padding: 2px; text-align: center;">{{ question.points }} points
+							</div>
+						</div>
+					</a>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="col s12 m6 l6">
+		<div class="row center">
+			<h4>Countdown</h4>
+		</div>
+		<div class="row">
+			<div class="col s10 m10 l10 offset-s2 offset-m2 offset-l2">
+				<div id="clock"></div>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 80px">
+			<div class="col s4 m4 l14 offset-s3 offset-m3 offset-l3">
+				<a href="/contest/leaderboard/" class="btn">Leaderboard</a>
+			</div>
+			<div class="col s4 m4 l14">
+				<a href="/contest/logout/" class="btn">Logout</a>
+			</div>
+		</div>
+	</div>
 </div>
+<link rel="stylesheet" href="{% static 'css/flipclock.css' %}" />
+<script src="{% static 'js/flipclock.min.js' %}"></script>
+<script type="text/javascript">
+	var clock;
+	var end = new Date(2017, 0, 21, 6, 0, 0, 0);
+	$(document).ready(function()
+	{
+		var rightnow = new Date();
+		var diff = end.getTime() / 1000 - rightnow.getTime() / 1000;
+		clock = $('#clock').FlipClock(diff, {clockFace : 'HourlyCounter', autoStart : false});
+		clock.setCountdown(true);
+		clock.start();
+	});
+</script>
 {% endblock %}

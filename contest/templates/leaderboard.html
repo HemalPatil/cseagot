@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<title>Leaderboard</title>
+<br>
+<div class="row center">
+	<h4>Leaderboard</h4>
+</div>
+<div class="row">
+	<div class="col s8 l8 m8 offset-s2 offset-m2 offset-l2">
+		<table class="striped">
+			<thead>
+				<tr>
+					<td>Team Name</td>
+					<td>Score</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for team in teams %}
+				<tr>
+					<td>{{ team.name }}</td>
+					<td>{{ team.points }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

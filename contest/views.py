@@ -3,8 +3,9 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, Http404
 from django.template import loader
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from contest.models import Question, Hint, Solve
+from team.models import Team
 
 def login(request):
 	if request.method == "GET":
@@ -23,7 +24,8 @@ def login(request):
 			return redirect('/contest/login/')
 
 def logout(request):
-	return 0
+	auth_logout(request)
+	return redirect("/contest/login/")
 
 def main(request):
 	if request.user.is_authenticated:
@@ -45,6 +47,12 @@ def question(request, question_id = None):
 			return HttpResponse(template.render(context, request))
 		except Question.DoesNotExist:
 			raise Http404("Invalid question")
+
+def leaderboard(request):
+	template = loader.get_template('leaderboard.html')
+	teams = Team.objects.all().order_by('points')
+	context = {'teams' : teams}
+	return HttpResponse(template.render(context, request))
 
 @csrf_exempt
 def submitflag(request):
