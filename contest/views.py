@@ -55,7 +55,7 @@ def question(request, question_id = None):
 			rais
 def leaderboard(request):
 	template = loader.get_template('leaderboard.html')
-	teams = Team.objects.all().order_by('points')
+	teams = Team.objects.all().order_by('-points')
 	context = {'teams' : teams}
 	return HttpResponse(template.render(context, request))
 

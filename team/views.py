@@ -1,6 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import loader
 from django.contrib.auth.models import User
 from team.models import Student, Team
@@ -17,18 +17,17 @@ def successful(request):
 	context = {}
 	return HttpResponse(template.render(context, request))
 
-def main(request):
-	return HttpResponse("bhosadchod")
-
 @csrf_exempt
 def checkteam(request):
 	if request.method == "POST":
-		print('request is post')
 		print(request.POST['teamname'])
 		try:
 			team = Team.objects.get(name = request.POST['teamname'])
+			return HttpResponse("Team already registered")
 		except Team.DoesNotExist:
 			print("team does not exist")
+			if request.POST["pw"] == "":
+				return HttpResponse("Enter password")
 			print("mem1" + request.POST['mem1'] + "mem1")
 			print("mem2" + request.POST['mem2'] + "mem2")
 			print("mem3" + request.POST['mem3'] + "mem3")
@@ -65,26 +64,22 @@ def checkteam(request):
 			except Student.DoesNotExist:
 				print("illegal mem1 regno")
 				return HttpResponse("Member 1 not registered for competition")
-			if request.POST['mem3'] == "":
-				print("works")
-		if m1 != None:
-			m1.registered = True
-			m1.save()
-		if m2 != None:
-			m2.registered = True
-			m2.save()
-		if m3 != None:
-			m3.registered = True
-			m3.save()
-		if m4 != None:
-			m4.registered = True
-			m4.save()
-		pw = ''.join(random.choice(string.ascii_lowercase + string.digits + string.ascii_uppercase) for i in range(10))
-		print("team pw : " + pw)
-		uname = request.POST['teamname'].replace(" ", "")
-		u = User.objects.create_user(username = uname, password = pw)
-		Team(user = u, name = request.POST['teamname'], mem1 = m1, mem2 = m2, mem3 = m3, mem4 = m4).save()
-		with open("pws.txt", "a") as pwfile:
-			pwfile.write(uname + " : " + pw + "\n")
-			pwfile.close()
-	return HttpResponse("teamreged")
+			if m1 != None:
+				m1.registered = True
+				m1.save()
+			if m2 != None:
+				m2.registered = True
+				m2.save()
+			if m3 != None:
+				m3.registered = True
+				m3.save()
+			if m4 != None:
+				m4.registered = True
+				m4.save()
+			print("team pw : " + pw)
+			uname = request.POST['teamname'].replace(" ", "")
+			u = User.objects.create_user(username = uname, password = request.POST["pw"])
+			Team(user = u, name = request.POST['teamname'], mem1 = m1, mem2 = m2, mem3 = m3, mem4 = m4).save()
+			return HttpResponse("teamreged")
+	else:
+		raise Http404("Not allowed")

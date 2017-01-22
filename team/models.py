@@ -13,7 +13,7 @@ class Student(models.Model):
 		('MTECH', 'M. Tech.'),
 		('MCA', 'MCA')
 	)
-	name = models.CharField(max_length = 100, null = False)
+	name = models.CharField(max_length = 100, null = True)
 	regno = models.CharField(max_length = 10, null = False)
 	course = models.CharField(max_length = 10, choices = COURSE_CHOICES, blank = True, null = False)
 	year = models.CharField(max_length = 10, choices = YEAR_CHOICES, blank = True, null = False)
