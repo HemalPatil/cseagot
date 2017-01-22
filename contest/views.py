@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from contest.models import Question, Hint, Solve
 from team.models import Team
+from datetime import datetime
 
 def teamlogin(request):
 	if request.method == "GET":
@@ -52,7 +53,7 @@ def question(request, question_id = None):
 			rais
 def leaderboard(request):
 	template = loader.get_template('leaderboard.html')
-	teams = Team.objects.all().order_by('-points')
+	teams = Team.objects.all().order_by('-points', 'lastpoints')
 	context = {'teams' : teams}
 	return HttpResponse(template.render(context, request))
 
@@ -70,6 +71,7 @@ def submitflag(request):
 					Solve(question = q, userteam = request.user).save()
 					t = request.user.team
 					t.points = t.points + q.points
+					t.lastpoints = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 					t.save()
 					return HttpResponse("right")
 				else:

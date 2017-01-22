@@ -4,6 +4,7 @@ from django.http import HttpResponse, Http404
 from django.template import loader
 from django.contrib.auth.models import User
 from team.models import Student, Team
+from datetime import datetime
 import string
 import random
 
@@ -79,7 +80,7 @@ def checkteam(request):
 			print("team pw : " + request.POST['pw'])
 			uname = request.POST['teamname'].replace(" ", "")
 			u = User.objects.create_user(username = uname, password = request.POST['pw'])
-			Team(user = u, name = request.POST['teamname'], mem1 = m1, mem2 = m2, mem3 = m3, mem4 = m4).save()
+			Team(user = u, name = request.POST['teamname'], mem1 = m1, mem2 = m2, mem3 = m3, mem4 = m4, lastpoints = datetime.now().strftime("%Y-%m-%d %H:%M:%S")).save()
 			return HttpResponse("teamreged")
 	else:
 		raise Http404("Not allowed")

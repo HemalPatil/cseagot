@@ -27,3 +27,4 @@ class Team(models.Model):
 	mem3 = models.ForeignKey(Student, related_name = 'member3', null = True)
 	mem4 = models.ForeignKey(Student, related_name = 'member4', null = True)
 	points = models.IntegerField(default = 0, null = False)
+	lastpoints = models.DateTimeField(null = True)
