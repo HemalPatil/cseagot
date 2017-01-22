@@ -7,7 +7,6 @@ from django.contrib.auth import authenticate, login, logout
 from contest.models import Question, Hint, Solve
 from team.models import Team
 
-@csrf_exempt
 def teamlogin(request):
 	if request.method == "GET":
 		if request.user.is_authenticated:
@@ -18,18 +17,22 @@ def teamlogin(request):
 	elif request.method == "POST":
 		print(request.POST["csrfmiddlewaretoken"])
 		user = authenticate(username = request.POST["uname"], password = request.POST["pw"])
+		print user
 		if user is not None:
 			login(request, user)
+			print "Hello"
 			return redirect('/contest/')
 		else:
+			print "hello none"
 			return redirect('/contest/login/')
 
-@csrf_exempt
 def teamlogout(request):
-	logout(request)
+	try:
+		logout(request)
+	except Exception as e:
+		print e
 	return redirect("/contest/login/")
 
-@csrf_exempt
 def main(request):
 	if request.user.is_authenticated:
 		template = loader.get_template('main.html')
@@ -38,7 +41,6 @@ def main(request):
 	else:
 		return redirect('/contest/login')
 
-@csrf_exempt
 def question(request, question_id = None):
 	if question_id is None:
 		raise Http404("Invalid question")
@@ -50,9 +52,7 @@ def question(request, question_id = None):
 			context = {'question' : q, 'hints' : hints}
 			return HttpResponse(template.render(context, request))
 		except Question.DoesNotExist:
-			raise Http404("Invalid question")
-
-@csrf_exempt
+			rais
 def leaderboard(request):
 	template = loader.get_template('leaderboard.html')
 	teams = Team.objects.all().order_by('points')
