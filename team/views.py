@@ -76,9 +76,9 @@ def checkteam(request):
 			if m4 != None:
 				m4.registered = True
 				m4.save()
-			print("team pw : " + pw)
+			print("team pw : " + request.POST['pw'])
 			uname = request.POST['teamname'].replace(" ", "")
-			u = User.objects.create_user(username = uname, password = request.POST["pw"])
+			u = User.objects.create_user(username = uname, password = request.POST['pw'])
 			Team(user = u, name = request.POST['teamname'], mem1 = m1, mem2 = m2, mem3 = m3, mem4 = m4).save()
 			return HttpResponse("teamreged")
 	else:

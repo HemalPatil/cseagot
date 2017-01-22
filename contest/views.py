@@ -17,13 +17,10 @@ def teamlogin(request):
 	elif request.method == "POST":
 		print(request.POST["csrfmiddlewaretoken"])
 		user = authenticate(username = request.POST["uname"], password = request.POST["pw"])
-		print user
 		if user is not None:
 			login(request, user)
-			print "Hello"
 			return redirect('/contest/')
 		else:
-			print "hello none"
 			return redirect('/contest/login/')
 
 def teamlogout(request):
